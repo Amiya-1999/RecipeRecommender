@@ -12,13 +12,36 @@ import { RouterLink } from '@angular/router';
 })
 export class RecipeListComponent implements OnInit {
   recipes: any[] = [];
+  currentPage = 1;
+  totalPages = 1;
+  pageSize = 6;
 
   constructor(private recipeService: RecipeService) {}
 
-  ngOnInit(): void {
-    this.recipeService.getAllRecipes().subscribe({
-      next: (data) => (this.recipes = data),
-      error: (err) => console.error(err),
-    });
+  ngOnInit() {
+    this.loadRecipes();
+  }
+
+  loadRecipes() {
+    this.recipeService
+      .getAllRecipes(this.currentPage, this.pageSize)
+      .subscribe((response) => {
+        this.recipes = response.data;
+        this.totalPages = response.totalPages;
+      });
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadRecipes();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadRecipes();
+    }
   }
 }

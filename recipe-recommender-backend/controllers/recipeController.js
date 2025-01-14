@@ -1,9 +1,29 @@
 const db = require("../config/db");
 
 exports.getAllRecipes = async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.query;
+
   try {
-    const [recipes] = await db.execute("SELECT * FROM recipes");
-    res.status(200).json(recipes);
+    const offset = (page - 1) * pageSize;
+    const limit = parseInt(pageSize);
+
+    const [countResult] = await db.execute(
+      "SELECT COUNT(*) as totalRecipes FROM recipes"
+    );
+    const totalRecipes = countResult[0].totalRecipes;
+    const [recipes] = await db.execute(
+      `SELECT * FROM recipes LIMIT ${limit} OFFSET ${offset}`
+    );
+
+    const totalPages = Math.ceil(totalRecipes / pageSize);
+
+    res.status(200).json({
+      data: recipes,
+      currentPage: parseInt(page),
+      pageSize: parseInt(pageSize),
+      totalPages,
+      totalRecipes,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

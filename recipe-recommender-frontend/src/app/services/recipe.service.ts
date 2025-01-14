@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,8 +10,11 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  getAllRecipes(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`);
+  getAllRecipes(page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get(`${this.apiUrl}`, { params });
   }
 
   getRecipeById(id: number): Observable<any> {
