@@ -1,0 +1,57 @@
+img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+details summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+details[open] summary {
+  color: #1d4ed8;
+}
+.recipe-info {
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.recipe-info p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #374151;
+}
+.container {
+  background: linear-gradient(to right, #f9fafb, #eef2f3);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+img {
+  transition: transform 0.1s ease;
+}
+
+details {
+  summary {
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  li {
+    background-color: #c8c5ea;
+  }
+}
+
+details[open] summary {
+  background: #85c1dc;
+  font-weight: bold;
+}
+
+button {
+  transition: transform 0.2s ease;
+}
+button:active {
+  transform: scale(0.95);
+}

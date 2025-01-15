@@ -1,1 +1,65 @@
-<p>recipe-details works!</p>
+<div class="container mx-auto py-6 relative top-16">
+  <div *ngIf="recipe" class="flex flex-col md:flex-row gap-8">
+    <div class="flex-1">
+      <img
+        [src]="recipe.image_url"
+        alt="{{ recipe.name }}"
+        class="w-full rounded shadow-lg mb-4"
+      />
+    </div>
+
+    <div class="flex-1">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ recipe.name }}</h1>
+      <p class="text-gray-600 text-lg mb-4">{{ recipe.description }}</p>
+
+      <div class="flex items-center mb-4">
+        <span class="text-yellow-500 text-lg"> ★★★★☆ </span>
+        <span class="text-gray-600 ml-2">({{recipe.ratings}} reviews)</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+        <div class="bg-white p-4 shadow rounded flex items-center">
+          <i class="fas fa-clock text-blue-500 mr-2"></i>
+          <span><strong>Time:</strong> {{ recipe.cooking_time }} mins</span>
+        </div>
+        <div class="bg-white p-4 shadow rounded flex items-center">
+          <i class="fas fa-globe text-green-500 mr-2"></i>
+          <span><strong>Cuisine:</strong> {{ recipe.cuisine }}</span>
+        </div>
+        <div class="bg-white p-4 shadow rounded flex items-center">
+          <i class="fas fa-leaf text-red-500 mr-2"></i>
+          <span><strong>Diet:</strong> {{ recipe.dietary_preferences }}</span>
+        </div>
+      </div>
+
+      <details class="bg-gray-100 p-4 rounded mb-4">
+        <summary class="cursor-pointer text-lg font-semibold">
+          Ingredients
+        </summary>
+        <ul class="list-disc list-inside mt-2 text-gray-700">
+          <li *ngFor="let ingredient of ingredients" class="px-4 py-1">
+            {{ ingredient }}
+          </li>
+        </ul>
+      </details>
+
+      <details class="bg-gray-100 p-4 rounded mb-4">
+        <summary class="cursor-pointer text-lg font-semibold">
+          Instructions
+        </summary>
+        <ol class="mt-2 text-gray-700 list-decimal list-inside">
+          <li *ngFor="let step of steps" class="px-4 py-1">
+            {{ step }}
+          </li>
+        </ol>
+      </details>
+
+      <button
+        class="w-full bg-blue-500 text-white py-3 px-6 rounded shadow hover:bg-blue-600 transition"
+        (click)="addToFavorites(recipe.id)"
+      >
+        Add to Favorites
+      </button>
+    </div>
+  </div>
+</div>
