@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
+import { FavoriteService } from '../../services/favorite.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -14,10 +15,13 @@ export class RecipeDetailsComponent {
   recipe: any;
   ingredients: string[] = [];
   steps: string[] = [];
+  isFavorite: boolean = false;
+  userId: string = '1';
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private favoriteService: FavoriteService
   ) {}
 
   ngOnInit(): void {
@@ -25,11 +29,7 @@ export class RecipeDetailsComponent {
     if (id) {
       this.recipeService.getRecipeById(+id).subscribe({
         next: (data) => {
-          this.recipe = {
-            ...data,
-            nutrition: data.nutrition || {},
-            related_recipes: data.related_recipes || [],
-          };
+          this.recipe = data;
           this.ingredients = this.recipe.ingredients.split(', ');
           this.steps = this.recipe.steps.split(', ');
         },
@@ -40,8 +40,14 @@ export class RecipeDetailsComponent {
     }
   }
 
-  addToFavorites(recipeId: number): void {
-    console.log(`Adding recipe ${recipeId} to favorites`);
-    // Implement favorite addition logic here
+  addToFavorites(recipeId: string): void {
+    this.favoriteService.addFavorite(this.userId, recipeId).subscribe({
+      next: (res) => {
+        alert(res.message)
+      },
+      error: (err) => {
+        alert(err.error.message)
+      }
+    })
   }
 }
