@@ -11,17 +11,17 @@ export class FavoriteService {
   constructor(private http: HttpClient) {}
 
   // Add to favorites
-  addFavorite(userId: string, recipeId: string): Observable<any> {
+  addFavorite(userId: string | null, recipeId: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/add`, { userId, recipeId });
   }
 
   // Remove from favorites
-  removeFavorite(userId: string, recipeId: string): Observable<any> {
+  removeFavorite(userId: string | null, recipeId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/remove`, {body: {userId, recipeId}});
   }
 
   // Get all favorites
-  getFavorites(userId: string): Observable<any[]> {
+  getFavorites(userId: string | null): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/${userId}`);
   }
 }

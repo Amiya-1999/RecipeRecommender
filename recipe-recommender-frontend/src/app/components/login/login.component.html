@@ -1,1 +1,83 @@
-<p>login works!</p>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">
+      {{ isRegister ? "Register" : "Login" }}
+    </h2>
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div *ngIf="isRegister">
+        <label for="name" class="block text-gray-700 font-medium">Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Your Name"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <p
+          *ngIf="authForm.get('name')?.invalid && authForm.get('name')?.touched"
+          class="text-sm text-red-500"
+        >
+          Name is required.
+        </p>
+      </div>
+
+      <div>
+        <label for="email" class="block text-gray-700 font-medium">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Your Email"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <p
+          *ngIf="
+            authForm.get('email')?.invalid && authForm.get('email')?.touched
+          "
+          class="text-sm text-red-500"
+        >
+          Please enter a valid email.
+        </p>
+      </div>
+
+      <div>
+        <label for="password" class="block text-gray-700 font-medium"
+          >Password</label
+        >
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Your Password"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <p
+          *ngIf="
+            authForm.get('password')?.invalid &&
+            authForm.get('password')?.touched
+          "
+          class="text-sm text-red-500"
+        >
+          Password must be at least 6 characters long.
+        </p>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+      >
+        {{ isRegister ? "Register" : "Login" }}
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+      {{ isRegister ? "Already have an account?" : "Don't have an account?" }}
+      <a
+        (click)="toggleAuthMode()"
+        class="text-blue-500 hover:underline cursor-pointer"
+      >
+        {{ isRegister ? "Back to Login" : "Register here" }}
+      </a>
+    </p>
+  </div>
+</div>

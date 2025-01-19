@@ -10,16 +10,25 @@
       >
 
       <a
+        *ngIf="isLoggedIn"
         routerLink="/favorites"
         routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
         class="mr-4"
         >Favorites</a
       >
       <a
+        (click)="logOut()"
+        *ngIf="isLoggedIn"
         routerLink="/login"
         routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        >Login</a
+        >Logout</a
       >
+      <a
+      *ngIf="!isLoggedIn"
+      routerLink="/login"
+      routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
+      >Login</a
+    >
     </nav>
   </div>
 </header>

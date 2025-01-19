@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { FavoriteService } from '../../services/favorite.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -16,12 +17,12 @@ export class RecipeDetailsComponent {
   ingredients: string[] = [];
   steps: string[] = [];
   isFavorite: boolean = false;
-  userId: string = '1';
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +42,7 @@ export class RecipeDetailsComponent {
   }
 
   addToFavorites(recipeId: string): void {
-    this.favoriteService.addFavorite(this.userId, recipeId).subscribe({
+    this.favoriteService.addFavorite(this.userService.userId, recipeId).subscribe({
       next: (res) => {
         alert(res.message)
       },
