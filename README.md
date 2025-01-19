@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+Need to do Enhancement: 
+1. Add profile page, when user can see their detials(name, email), edit therir password and include logout in that page
+2. Responsivenss for both mobile and tablet
+3. 

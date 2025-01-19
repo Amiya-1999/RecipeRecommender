@@ -27,10 +27,6 @@ details[open] summary {
   padding: 20px;
 }
 
-img {
-  transition: transform 0.1s ease;
-}
-
 details {
   summary {
     padding: 10px;
