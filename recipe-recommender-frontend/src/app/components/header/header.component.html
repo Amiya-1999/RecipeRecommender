@@ -16,19 +16,19 @@
         class="mr-4"
         >Favorites</a
       >
+      <button *ngIf="isLoggedIn" routerLink="/profile" routerLinkActive="">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/user.png"
+          alt="User Icon"
+          class="w-6 h-6 rounded-full hover:opacity-75 relative top-1"
+        />
+      </button>
       <a
-        (click)="logOut()"
-        *ngIf="isLoggedIn"
+        *ngIf="!isLoggedIn"
         routerLink="/login"
         routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        >Logout</a
+        >Login</a
       >
-      <a
-      *ngIf="!isLoggedIn"
-      routerLink="/login"
-      routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-      >Login</a
-    >
     </nav>
   </div>
 </header>

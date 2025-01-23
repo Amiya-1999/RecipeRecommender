@@ -17,6 +17,7 @@ export class RecipeDetailsComponent {
   ingredients: string[] = [];
   steps: string[] = [];
   isFavorite: boolean = false;
+  userId: string | null = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,9 @@ export class RecipeDetailsComponent {
   ) {}
 
   ngOnInit(): void {
+    this.userService.getUserId().subscribe((res) => {
+      this.userId = res;
+    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.recipeService.getRecipeById(+id).subscribe({
@@ -42,7 +46,7 @@ export class RecipeDetailsComponent {
   }
 
   addToFavorites(recipeId: string): void {
-    this.favoriteService.addFavorite(this.userService.userId, recipeId).subscribe({
+    this.favoriteService.addFavorite(this.userId, recipeId).subscribe({
       next: (res) => {
         alert(res.message)
       },

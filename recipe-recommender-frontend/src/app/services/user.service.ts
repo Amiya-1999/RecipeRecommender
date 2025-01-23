@@ -10,13 +10,32 @@ import { StorageService } from './storage.service';
 export class UserService {
   private baseUrl = 'http://localhost:8000/api/users';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
-  userId: string | null = this.hasUserId();
+  private userId = new BehaviorSubject<string | null>(this.hasUserId());
 
-  constructor(private http: HttpClient, private storageService: StorageService) {}
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService
+  ) {}
 
   // Check if user is logged in
   isLoggedIn(): Observable<boolean> {
     return this.isLoggedInSubject.asObservable();
+  }
+
+  getUserId(): Observable<string | null> {
+    return this.userId.asObservable();
+  }
+
+  userDetails(userId: string | null): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${userId}`);
+  }
+
+  deleteUser(userId: string | null): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/remove/${userId}`).pipe(
+      tap((res) => {
+        this.logout();
+      })
+    );
   }
 
   // Register user
@@ -35,16 +54,16 @@ export class UserService {
         this.storageService.setItem('token', response.token);
         this.storageService.setItem('userId', response.user.id);
         this.isLoggedInSubject.next(true);
-        this.userId = response.user.id;
+        this.userId.next(response.user.id);
       })
     );
   }
 
   // Logout user
   logout(): void {
-    this.storageService.removeItem('token');
-    this.storageService.removeItem('userId');
+    localStorage.clear();
     this.isLoggedInSubject.next(false);
+    this.userId.next('');
   }
 
   private hasUserId(): string | null {

@@ -2,6 +2,35 @@ const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+exports.getUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const [users] = await db.execute("SELECT * FROM users WHERE ID=?", [
+      userId,
+    ]);
+    const user = users[0] || {};
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    await db.execute("DELETE FROM users WHERE ID=?", [userId]);
+    res.status(200).json({ message: "Account deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.updateUser = async (req, res) => {};
+
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
