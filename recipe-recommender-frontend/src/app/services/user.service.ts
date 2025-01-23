@@ -26,6 +26,15 @@ export class UserService {
     return this.userId.asObservable();
   }
 
+  updateUser(user: any): Observable<any> {
+    const updatedUser = {
+      name: user.name,
+      email: user.email,
+      password: user.password,
+    };
+    return this.http.put<any>(`${this.baseUrl}/update/${user.id}`, updatedUser);
+  }
+
   userDetails(userId: string | null): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${userId}`);
   }

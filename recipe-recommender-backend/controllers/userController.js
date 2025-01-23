@@ -29,7 +29,24 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {};
+exports.updateUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  const { userId } = req.params;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.execute(
+      "UPDATE users SET name=?, email=?, password=? WHERE id=?",
+      [name, email, hashedPassword, userId]
+    );
+    res.status(201).json({
+      message: "User updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
 
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;

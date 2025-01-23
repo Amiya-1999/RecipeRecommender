@@ -30,11 +30,6 @@ export class ProfileComponent {
     });
   }
 
-  updateUser(): void {
-    alert('User details updated successfully!');
-    // Logic to update user details (e.g., via an API call)
-  }
-
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
   }
@@ -42,7 +37,7 @@ export class ProfileComponent {
   saveChanges(): void {
     alert('User details updated successfully!');
     this.isEditing = false;
-    // Add logic to save the updated user details
+    this.userService.updateUser(this.user).subscribe((res) => {});
   }
 
   deleteAccount(): void {
