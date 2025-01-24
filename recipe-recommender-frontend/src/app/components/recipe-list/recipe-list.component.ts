@@ -3,7 +3,13 @@ import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Recipe } from '../../services/structure';
 
 @Component({
@@ -16,28 +22,35 @@ import { Recipe } from '../../services/structure';
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = [];
   filteredRecipes: Recipe[] = [];
+  displayRecipes: Recipe[] = [];
+  userRecipes: Recipe[] = [];
   selectedCategory: string = '';
   searchText: string = '';
-  currentPage = 1;
-  totalPages = 1;
-  pageSize = 6;
   isLoggedIn: boolean = false;
   isAddingRecipe: boolean = false;
   userId: string | null = '';
   newRecipeForm: FormGroup;
   isAllRecipeActive: boolean = true;
+  currentPage: number = 1;
+  recipesPerPage: number = 6;
+  totalPage: number = 1;
 
-  constructor(private recipeService: RecipeService, private userService: UserService, private router: Router, private fb: FormBuilder) {
+  constructor(
+    private recipeService: RecipeService,
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
     this.newRecipeForm = this.fb.group({
-      name: ["", Validators.required],
-      description: ["", Validators.required],
-      ingredients: ["", Validators.required],
-      steps: ["", Validators.required],
-      image_url: ["", Validators.required],
-      cuisine: ["", Validators.required],
-      dietary_preferences: ["", Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      ingredients: ['', Validators.required],
+      steps: ['', Validators.required],
+      image_url: ['', Validators.required],
+      cuisine: ['', Validators.required],
+      dietary_preferences: ['', Validators.required],
       cooking_time: [0, Validators.required],
-    })
+    });
   }
 
   ngOnInit() {
@@ -50,69 +63,110 @@ export class RecipeListComponent implements OnInit {
     });
   }
 
-  viewDetails(recipeId: number | undefined): void {
-    if(this.isLoggedIn) {
-      this.router.navigate(['/recipes', recipeId?.toString()])
-    }
-    else {
-      alert("Please login to view details about the recipe")
-    }
-  }
-
-  filterRecipes(): void {
-    this.filteredRecipes = this.recipes.filter(
-      (recipe) => !this.selectedCategory || recipe.dietary_preferences === this.selectedCategory
-    );
-  }
-
-  searchRecipe(): void {
-    this.filteredRecipes = this.recipes.filter(
-    (recipe) => recipe.name.toLowerCase().includes(this.searchText)
-    );
-  }
-  
-
   loadRecipes() {
-    this.recipeService
-      .getAllRecipes(this.currentPage, this.pageSize)
-      .subscribe((response) => {
-        this.recipes = response.data;
-        this.filteredRecipes = response.data;
-        this.totalPages = response.totalPages;
-      });
+    this.recipeService.getAllRecipes().subscribe((response) => {
+      this.recipes = response.data;
+      this.filteredRecipes = response.data;
+      this.updatePaginatedRecipes();
+    });
     this.selectedCategory = '';
   }
 
+  filterRecipes(): void {
+    this.searchText = '';
+    if (this.isAllRecipeActive) {
+      this.filteredRecipes = this.recipes.filter(
+        (recipe) =>
+          !this.selectedCategory ||
+          recipe.dietary_preferences === this.selectedCategory
+      );
+    } else {
+      this.filteredRecipes = this.userRecipes.filter(
+        (recipe) =>
+          !this.selectedCategory ||
+          recipe.dietary_preferences === this.selectedCategory
+      );
+    }
+    this.currentPage = 1;
+    this.updatePaginatedRecipes();
+  }
+
+  searchRecipe(): void {
+    this.selectedCategory = '';
+    if (this.isAllRecipeActive) {
+      this.filteredRecipes = this.recipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(this.searchText)
+      );
+    } else {
+      this.filteredRecipes = this.userRecipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(this.searchText)
+      );
+    }
+    this.currentPage = 1;
+    this.updatePaginatedRecipes();
+  }
+
+  updatePaginatedRecipes(): void {
+    const startIndex = (this.currentPage - 1) * this.recipesPerPage;
+    const endIndex = startIndex + this.recipesPerPage;
+    this.totalPage = Math.ceil(
+      this.filteredRecipes.length / this.recipesPerPage
+    );
+    this.displayRecipes = this.filteredRecipes.slice(startIndex, endIndex);
+  }
+
+  viewDetails(recipeId: number | undefined): void {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/recipes', recipeId?.toString()]);
+    } else {
+      alert('Please login to view details about the recipe');
+    }
+  }
+
   addRecipe(): void {
-    this.recipeService.addRecipes(this.newRecipeForm.value, this.userId).subscribe((res) => {
-      alert(res.message);
-    })
+    this.recipeService
+      .addRecipes(this.newRecipeForm.value, this.userId)
+      .subscribe((res) => {
+        alert(res.message);
+      });
     this.isAddingRecipe = false;
   }
 
   viewAllRecipes(): void {
     this.isAllRecipeActive = true;
     this.filteredRecipes = this.recipes;
+    this.selectedCategory = '';
+    this.searchText = '';
+    this.currentPage = 1;
+    this.updatePaginatedRecipes();
   }
 
   viewUserRecipes(): void {
     this.isAllRecipeActive = false;
+    this.selectedCategory = '';
+    this.searchText = '';
     this.recipeService.getRecipesByUser(this.userId).subscribe((res) => {
+      this.userRecipes = res;
       this.filteredRecipes = res;
-    })
+      this.currentPage = 1;
+      this.updatePaginatedRecipes();
+    });
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) {
+    if (
+      this.currentPage <
+      Math.ceil(this.filteredRecipes.length / this.recipesPerPage)
+    ) {
       this.currentPage++;
-      this.loadRecipes();
+      this.updatePaginatedRecipes();
     }
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.loadRecipes();
+      this.updatePaginatedRecipes();
     }
   }
 }
