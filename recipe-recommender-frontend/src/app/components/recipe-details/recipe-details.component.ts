@@ -4,6 +4,7 @@ import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { FavoriteService } from '../../services/favorite.service';
 import { UserService } from '../../services/user.service';
+import { Recipe } from '../../services/structure';
 
 @Component({
   selector: 'app-recipe-details',
@@ -13,7 +14,7 @@ import { UserService } from '../../services/user.service';
   styleUrl: './recipe-details.component.css',
 })
 export class RecipeDetailsComponent {
-  recipe: any;
+  recipe!: Recipe;
   ingredients: string[] = [];
   steps: string[] = [];
   isFavorite: boolean = false;
@@ -35,8 +36,16 @@ export class RecipeDetailsComponent {
       this.recipeService.getRecipeById(+id).subscribe({
         next: (data) => {
           this.recipe = data;
-          this.ingredients = this.recipe.ingredients.split(', ');
-          this.steps = this.recipe.steps.split(', ');
+          this.ingredients = this.recipe.ingredients
+            .trim()
+            .split(',')
+            .filter((ingredient: string) => ingredient != '')
+            .map((ingredient: string) => (ingredient = ingredient.trim()));
+          this.steps = this.recipe.steps
+            .trim()
+            .split('.')
+            .filter((step: string) => step != '')
+            .map((step: string) => (step = step.trim()));
         },
         error: (err) => {
           console.error('Error fetching recipe:', err);
@@ -45,14 +54,16 @@ export class RecipeDetailsComponent {
     }
   }
 
-  addToFavorites(recipeId: string): void {
-    this.favoriteService.addFavorite(this.userId, recipeId).subscribe({
-      next: (res) => {
-        alert(res.message)
-      },
-      error: (err) => {
-        alert(err.error.message)
-      }
-    })
+  addToFavorites(recipeId: number | undefined): void {
+    this.favoriteService
+      .addFavorite(this.userId, recipeId?.toString())
+      .subscribe({
+        next: (res) => {
+          alert(res.message);
+        },
+        error: (err) => {
+          alert(err.error.message);
+        },
+      });
   }
 }

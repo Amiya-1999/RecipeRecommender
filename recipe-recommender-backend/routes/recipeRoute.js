@@ -4,6 +4,7 @@ const {
   getRecipeById,
   getRecipesByIngredients,
   addRecipe,
+  getRecipesByUser,
 } = require("../controllers/recipeController");
 
 const router = express.Router();
@@ -11,6 +12,7 @@ const router = express.Router();
 router.get("/", getAllRecipes);
 router.get("/:id", getRecipeById);
 router.post("/search", getRecipesByIngredients);
-router.post("/add", addRecipe);
+router.post("/add/:userId", addRecipe);
+router.get("/user/:userId", getRecipesByUser);
 
 module.exports = router;

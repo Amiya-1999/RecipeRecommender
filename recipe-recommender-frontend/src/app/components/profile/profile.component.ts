@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { User } from '../../services/structure';
 
 @Component({
   selector: 'app-profile',
@@ -52,12 +53,4 @@ export class ProfileComponent {
     this.userService.logout();
     this.router.navigate(['/login']);
   }
-}
-
-interface User {
-  id: number,
-  name: string,
-  email: string, 
-  password: string,
-  created_at: string
 }

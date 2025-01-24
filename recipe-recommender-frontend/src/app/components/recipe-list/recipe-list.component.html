@@ -1,16 +1,42 @@
 <div class="container mx-auto py-4">
   <div class="flex justify-between mb-4 mt-14">
-    <h1 class="text-2xl font-bold">Recipes</h1>
+    <div class="flex space-x-4">
+      <!-- All recipes Button -->
+      <button
+        (click)="viewAllRecipes()"
+        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium {{
+          isAllRecipeActive ? 'underline' : ''
+        }} transition-transform hover:scale-110 duration-200"
+      >
+        All Recipes
+      </button>
+      <!-- User Recipes Button -->
+      <button
+        (click)="viewUserRecipes()"
+        class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-medium {{
+          !isAllRecipeActive ? 'underline' : ''
+        }} transition-transform hover:scale-110 duration-200"
+      >
+        My Recipes
+      </button>
+      <!-- Add Recipe Button -->
+      <button
+        (click)="isAddingRecipe = !isAddingRecipe"
+        class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-lg font-medium transition-transform hover:scale-110 duration-200"
+      >
+        Add Recipe
+      </button>
+    </div>
     <div class="flex">
       <input
         type="text"
         placeholder="Search Recipes"
         [(ngModel)]="searchText"
-        class="rounded p-2 w-full mr-4 border-2 border-black"
+        class="rounded p-2 w-full mr-4 border-2 border-black transition-transform hover:scale-110 duration-300"
         (input)="searchRecipe()"
       />
       <select
-        class="border rounded p-2 font-semibold"
+        class="border rounded p-2 font-semibold transition-transform hover:scale-110 duration-300"
         [(ngModel)]="selectedCategory"
         (change)="filterRecipes()"
       >
@@ -25,20 +51,26 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
       *ngFor="let recipe of filteredRecipes"
-      class="p-4 border rounded shadow"
+      class="rounded overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl duration-300"
     >
       <img
+        class="w-full h-60 object-cover rounded mb-2"
         [src]="recipe.image_url"
         alt="{{ recipe.name }}"
-        class="w-full h-40 object-cover rounded mb-2"
       />
-      <h2 class="text-xl font-semibold">{{ recipe.name }}</h2>
-      <p class="text-gray-700">{{ recipe.description }}</p>
-      <a
-        (click)="viewDetails(recipe.id)"
-        class="text-blue-500 mt-2 inline-block cursor-pointer"
-        >View Details</a
-      >
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">{{ recipe.name }}</div>
+        <p class="text-gray-700 text-base">
+          {{ recipe.description }}
+        </p>
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <a
+          class="text-blue-500 hover:text-blue-700 underline cursor-pointer"
+          (click)="viewDetails(recipe.id)"
+          >View Details</a
+        >
+      </div>
     </div>
   </div>
   <div class="flex justify-between items-center mt-1">
@@ -57,5 +89,118 @@
     >
       Next
     </button>
+  </div>
+  <div
+    *ngIf="isAddingRecipe"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center overflow-scroll"
+  >
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-8 mt-80">
+      <h2 class="text-2xl font-bold mb-4">Add New Recipe</h2>
+      <form [formGroup]="newRecipeForm" (ngSubmit)="addRecipe()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Recipe Name -->
+          <div>
+            <label class="block font-bold mb-2">Name</label>
+            <input
+              type="text"
+              formControlName="name"
+              name="name"
+              class="w-full border rounded-lg p-2"
+              required
+            />
+          </div>
+          <!-- Cuisine -->
+          <div>
+            <label class="block font-bold mb-2">Cuisine</label>
+            <input
+              type="text"
+              formControlName="cuisine"
+              name="cuisine"
+              class="w-full border rounded-lg p-2"
+            />
+          </div>
+          <!-- Dietary Preference -->
+          <div>
+            <label class="block font-bold mb-2">Dietary Preference</label>
+            <select
+              formControlName="dietary_preferences"
+              name="dietaryPreference"
+              class="w-full border rounded-lg p-2"
+            >
+              <option value="Vegan">Vegan</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Non-Vegetarian">Non-Vegetarian</option>
+            </select>
+          </div>
+          <!-- Cooking Time -->
+          <div>
+            <label class="block font-bold mb-2">Cooking Time (mins)</label>
+            <input
+              type="number"
+              formControlName="cooking_time"
+              name="cookingTime"
+              class="w-full border rounded-lg p-2"
+            />
+          </div>
+          <!-- Description -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2">Description</label>
+            <textarea
+              formControlName="description"
+              name="description"
+              rows="3"
+              class="w-full border rounded-lg p-2"
+            ></textarea>
+          </div>
+          <!-- Ingredients -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2"
+              >Ingredients (comma-separated)</label
+            >
+            <input
+              type="text"
+              formControlName="ingredients"
+              name="ingredients"
+              class="w-full border rounded-lg p-2"
+            />
+          </div>
+          <!-- Steps -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2">Steps (dot-separated)</label>
+            <textarea
+              formControlName="steps"
+              name="steps"
+              rows="3"
+              class="w-full border rounded-lg p-2"
+            ></textarea>
+          </div>
+          <!-- Image -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2">Image URL</label>
+            <input
+              type="text"
+              formControlName="image_url"
+              name="image"
+              class="w-full border rounded-lg p-2"
+            />
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end">
+          <button
+            type="button"
+            class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg mr-2"
+            (click)="this.isAddingRecipe = !this.isAddingRecipe"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+          >
+            Add Recipe
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

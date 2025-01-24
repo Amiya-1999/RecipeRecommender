@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Recipe } from './structure';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,13 @@ export class RecipeService {
 
   searchRecipes(ingredients: string[]): Observable<any> {
     return this.http.post(`${this.apiUrl}/search`, { ingredients });
+  }
+
+  addRecipes(recipe: Recipe, userId: string | null): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add/${userId}`, recipe);
+  }
+
+  getRecipesByUser(userId: string | null): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/${userId}`);
   }
 }

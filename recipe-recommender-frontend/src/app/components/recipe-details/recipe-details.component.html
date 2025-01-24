@@ -4,7 +4,7 @@
       <img
         [src]="recipe.image_url"
         alt="{{ recipe.name }}"
-        class="w-full rounded shadow-lg mb-4"
+        class="w-full rounded shadow-lg mb-4 transition-transform hover:scale-105 hover:shadow-xl duration-300"
       />
     </div>
 
@@ -14,7 +14,7 @@
 
       <div class="flex items-center mb-4">
         <span class="text-yellow-500 text-lg"> ★★★★☆ </span>
-        <span class="text-gray-600 ml-2">({{recipe.ratings}} reviews)</span>
+        <span class="text-gray-600 ml-2">({{ recipe.ratings }} reviews)</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
@@ -33,7 +33,7 @@
       </div>
 
       <details class="bg-gray-100 p-4 rounded mb-4">
-        <summary class="cursor-pointer text-lg font-semibold">
+        <summary class="cursor-pointer text-lg font-semibold p-2">
           Ingredients
         </summary>
         <ul class="list-disc list-inside mt-2 text-gray-700">
@@ -44,7 +44,7 @@
       </details>
 
       <details class="bg-gray-100 p-4 rounded mb-4">
-        <summary class="cursor-pointer text-lg font-semibold">
+        <summary class="cursor-pointer text-lg font-semibold p-2">
           Instructions
         </summary>
         <ol class="mt-2 text-gray-700 list-decimal list-inside">

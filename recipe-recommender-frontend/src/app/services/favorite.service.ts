@@ -11,7 +11,7 @@ export class FavoriteService {
   constructor(private http: HttpClient) {}
 
   // Add to favorites
-  addFavorite(userId: string | null, recipeId: string): Observable<any> {
+  addFavorite(userId: string | null, recipeId: string | undefined): Observable<any> {
     return this.http.post(`${this.baseUrl}/add`, { userId, recipeId });
   }
 

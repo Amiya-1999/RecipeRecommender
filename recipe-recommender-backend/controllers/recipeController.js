@@ -68,21 +68,37 @@ exports.addRecipe = async (req, res) => {
     cuisine,
     dietary_preferences,
   } = req.body;
+  const { userId } = req.params;
   try {
     await db.execute(
-      "INSERT INTO recipes (name, description, ingredients, steps, image_url, cooking_time, cuisine, dietary_preferences) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO recipes (name, description, ingredients, steps, image_url, cooking_time, cuisine, dietary_preferences, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         name,
         description,
-        ingredients.join(", "),
-        steps.join(", "),
+        ingredients,
+        steps,
         image_url,
         cooking_time,
         cuisine,
         dietary_preferences,
+        userId,
       ]
     );
     res.status(201).json({ message: "Recipe added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getRecipesByUser = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [recipes] = await db.execute(
+      `SELECT * FROM recipes WHERE user_id=?;`,
+      [userId]
+    );
+    res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
