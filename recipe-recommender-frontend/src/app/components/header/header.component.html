@@ -1,11 +1,11 @@
 <header class="bg-blue-600 text-white p-4 shadow w-full fixed z-10">
   <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-xl font-bold">Recipe Recommender</h1>
-    <nav>
+    <h1 class="text-xl font-bold !m-0">Recipe Recommender</h1>
+    <nav class="flex justify-center items-center">
       <a
         routerLink="/recipes"
         routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        class="mr-4"
+        class="mr-4 text-base"
         >Recipes</a
       >
 
@@ -13,14 +13,14 @@
         *ngIf="isLoggedIn"
         routerLink="/favorites"
         routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        class="mr-4"
+        class="mr-4 text-base"
         >Favorites</a
       >
       <button *ngIf="isLoggedIn" routerLink="/profile" routerLinkActive="">
         <img
           src="https://img.icons8.com/ios-filled/50/ffffff/user.png"
           alt="User Icon"
-          class="w-6 h-6 rounded-full hover:opacity-75 relative top-1"
+          class="w-6 h-6 rounded-full hover:opacity-75"
         />
       </button>
       <a

@@ -1,5 +1,5 @@
 <div class="container mx-auto py-4">
-  <div class="flex justify-between mb-4 mt-14">
+  <div class="flex justify-between mt-16 mb-6">
     <div class="flex space-x-4">
       <!-- All recipes Button -->
       <button
@@ -53,8 +53,9 @@
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
-      *ngFor="let recipe of displayRecipes"
-      class="rounded overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl duration-300"
+      *ngFor="let recipe of displayRecipes; let i = index"
+      [ngStyle]="{'--stagger-delay': i * 0.1 + 's'}"
+      class="fade-in-up rounded overflow-hidden shadow-lg"
     >
       <img
         class="w-full h-60 object-cover rounded mb-2"

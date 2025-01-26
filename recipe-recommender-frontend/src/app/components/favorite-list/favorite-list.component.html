@@ -1,4 +1,4 @@
-<div class="container mx-auto py-6">
+<div class="container mx-auto py-6 overflow-visible">
   <h1 class="text-3xl font-bold text-gray-800 mb-4 mt-14">Your Favorites</h1>
 
   <div *ngIf="favorites.length === 0" class="text-gray-600 text-lg">
@@ -6,8 +6,9 @@
   </div>
 
   <div
-    *ngFor="let favorite of favorites"
-    class="flex items-center justify-between bg-white p-4 rounded-lg shadow-lg mb-4 transition-transform hover:shadow-xl hover:scale-105 duration-300"
+    *ngFor="let favorite of favorites; let i = index"
+    class="fade-in-up flex items-center justify-between bg-white p-4 rounded-lg shadow-lg mb-4"
+    [ngStyle]="{'--stagger-delay': i * 0.2 + 's'}"
   >
     <div class="flex items-center">
       <img
