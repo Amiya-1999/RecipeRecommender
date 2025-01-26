@@ -1,85 +1,94 @@
 {
-  "hash": "e8dba1b6",
-  "configHash": "7f219dc5",
+  "hash": "54046380",
+  "configHash": "1eee3622",
   "lockfileHash": "5c54bb55",
-  "browserHash": "cae49359",
+  "browserHash": "46aeec4e",
   "optimized": {
     "@angular/animations": {
       "src": "../../../../../node_modules/@angular/animations/fesm2022/animations.mjs",
       "file": "@angular_animations.js",
-      "fileHash": "41a34f8c",
+      "fileHash": "8a2ce226",
       "needsInterop": false
     },
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "19fc480c",
+      "fileHash": "fe81feb5",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "cfcb20c6",
+      "fileHash": "f3d9309a",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "27a8ee5c",
+      "fileHash": "5a3dcd9c",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "177c8ce6",
+      "fileHash": "9a1f0a28",
       "needsInterop": false
     },
     "@angular/material/icon": {
       "src": "../../../../../node_modules/@angular/material/fesm2022/icon.mjs",
       "file": "@angular_material_icon.js",
-      "fileHash": "107770bc",
+      "fileHash": "b1bcc6e7",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "444a16f6",
+      "fileHash": "0c6600ad",
       "needsInterop": false
     },
     "@angular/platform-browser/animations/async": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/animations/async.mjs",
       "file": "@angular_platform-browser_animations_async.js",
-      "fileHash": "622360dd",
+      "fileHash": "a2bf2636",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "32e87b9b",
+      "fileHash": "fe70470d",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "61ffc5e5",
+      "fileHash": "70442ff1",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "5e822446",
+      "fileHash": "9d346f27",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../../../../node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "78252e0a",
+      "fileHash": "fdf07538",
+      "needsInterop": false
+    },
+    "@angular/platform-browser/animations": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs",
+      "file": "@angular_platform-browser_animations.js",
+      "fileHash": "d2f271c6",
       "needsInterop": false
     }
   },
   "chunks": {
-    "browser-KQOLBK7X": {
-      "file": "browser-KQOLBK7X.js"
+    "browser-WD3HU5F3": {
+      "file": "browser-WD3HU5F3.js"
+    },
+    "chunk-WQZBONQE": {
+      "file": "chunk-WQZBONQE.js"
     },
     "chunk-AVAQI2KR": {
       "file": "chunk-AVAQI2KR.js"
@@ -96,11 +105,11 @@
     "chunk-RM24KKYX": {
       "file": "chunk-RM24KKYX.js"
     },
-    "chunk-RZFGSV6T": {
-      "file": "chunk-RZFGSV6T.js"
-    },
     "chunk-PGF5GHY3": {
       "file": "chunk-PGF5GHY3.js"
+    },
+    "chunk-RZFGSV6T": {
+      "file": "chunk-RZFGSV6T.js"
     },
     "chunk-JFE6O76F": {
       "file": "chunk-JFE6O76F.js"

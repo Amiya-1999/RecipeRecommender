@@ -26,7 +26,55 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-Need to do Enhancement: 
-1. Add profile page, when user can see their detials(name, email), edit therir password and include logout in that page
-2. Responsivenss for both mobile and tablet
-3. 
+Need to do Enhancement:
+0. Responsivenss for both mobile and tablet
+
+Core Features
+
+1. Ingredient-Based Recipe Search:
+
+Users input ingredients (e.g., "tomato, cheese, basil").
+The system filters and shows recipes using those ingredients.
+
+2. Filters:
+
+Dietary Preferences: Vegan, Vegetarian, Gluten-Free, etc.
+Cuisine Type: Indian, Italian, Chinese, etc.
+Cooking Time: Less than 15 mins, 30 mins, etc.
+
+3. Save and Rate Recipes:
+
+Save favorite recipes for later.
+Rate recipes to help others decide.
+User Accounts:
+
+Advanced Features 
+4. AI-Powered Recommendations:
+
+Suggest recipes based on user preferences, past interactions, or even mood.
+Interactive Cooking Guide:
+
+Step-by-step instructions with progress tracking.
+Timer integration for steps like "boil for 10 minutes."
+
+5. Meal Planner:
+
+Weekly meal planner to organize recipes and generate shopping lists.
+
+6. Social Features:
+
+Share recipes on social media.
+Follow other users to see their recipes.
+
+7. Image Recognition:
+
+Allow users to upload photos of ingredients, and the app detects and lists them.
+
+8. Extra
+
+Reward badges for uploading recipes, rating, or consistently using the app.
+Display cooking progress with animations (e.g., progress bars or timers)
+Connect to smart kitchen devices to automate certain steps (e.g., oven settings).
+Add voice guidance for cooking steps using Web Speech API.
+Cache recipes locally for offline access using service workers.
+Use AR to overlay recipe steps in real time while cooking.

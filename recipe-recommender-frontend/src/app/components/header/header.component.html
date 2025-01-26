@@ -1,34 +1,81 @@
-<header class="bg-blue-600 text-white p-4 shadow w-full fixed z-10">
+<header
+  [@headerAnimation]="headerState" [@fadeInOut]
+  class="bg-gradient-to-r from-rose-600 to-red-800 text-white py-4 shadow-md w-full fixed z-10"
+>
   <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-xl font-bold !m-0">Recipe Recommender</h1>
-    <nav class="flex justify-center items-center">
+    <!-- Logo / Title -->
+    <h1
+      class="text-2xl !font-bold !m-0 bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400 text-transparent bg-clip-text"
+    >
+      Recipe Recommender
+    </h1>
+
+    <!-- Navigation Links -->
+    <nav class="flex items-center space-x-6">
+      <!-- Recipes Link -->
       <a
         routerLink="/recipes"
-        routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        class="mr-4 text-base"
-        >Recipes</a
+        routerLinkActive="font-bold text-yellow-300"
+        class="relative group text-base hover:text-yellow-300 transition-all hover:scale-110 hover:opacity-90 duration-300"
       >
+        Recipes
+        <span
+          class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-300 transition-all duration-300 group-hover:w-full"
+        ></span>
+      </a>
 
+      <!-- Favorites Link (Visible Only When Logged In) -->
       <a
         *ngIf="isLoggedIn"
         routerLink="/favorites"
-        routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        class="mr-4 text-base"
-        >Favorites</a
+        routerLinkActive="font-bold text-yellow-300"
+        class="relative group text-base hover:text-yellow-300 transition-all hover:scale-110 hover:opacity-90 duration-300"
       >
-      <button *ngIf="isLoggedIn" routerLink="/profile" routerLinkActive="">
+        Favorites
+        <span
+          class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-300 transition-all duration-300 group-hover:w-full"
+        ></span>
+      </a>
+
+      <!-- Add Recipe Button (Enhanced Design) -->
+      <a
+        *ngIf="isLoggedIn"
+        routerLink="/add-recipe"
+        routerLinkActive=""
+        class="bg-gradient-to-r from-yellow-300 to-orange-400 text-blue-800 font-semibold px-5 py-2 rounded-full shadow-lg hover:from-yellow-400 hover:to-orange-500 hover:scale-105 transition-all duration-300"
+      >
+        Add Recipe
+      </a>
+
+      <!-- Profile Icon (Visible Only When Logged In) -->
+      <button
+        *ngIf="isLoggedIn"
+        routerLink="/profile"
+        routerLinkActive="bg-black"
+        class="relative group hover:opacity-90 transition-opacity duration-300 rounded-full"
+      >
         <img
           src="https://img.icons8.com/ios-filled/50/ffffff/user.png"
           alt="User Icon"
-          class="w-6 h-6 rounded-full hover:opacity-75"
+          class="w-6 h-6 rounded-full"
         />
+        <span
+          class="absolute inset-0 rounded-full border-2 border-transparent transition-all duration-300 group-hover:border-yellow-300"
+        ></span>
       </button>
+
+      <!-- Login Link (Visible Only When Not Logged In) -->
       <a
         *ngIf="!isLoggedIn"
         routerLink="/login"
-        routerLinkActive="font-bold text-yellow-300 border-b-2 border-yellow-300"
-        >Login</a
+        routerLinkActive="font-bold text-yellow-300"
+        class="relative text-base hover:text-yellow-300 transition-colors duration-300"
       >
+        Login
+        <span
+          class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-300 transition-all duration-300 group-hover:w-full"
+        ></span>
+      </a>
     </nav>
   </div>
 </header>
