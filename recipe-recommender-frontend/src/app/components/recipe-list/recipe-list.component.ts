@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {
   FormBuilder,
@@ -27,9 +27,7 @@ export class RecipeListComponent implements OnInit {
   selectedCategory: string = '';
   searchText: string = '';
   isLoggedIn: boolean = false;
-  isAddingRecipe: boolean = false;
   userId: string | null = '';
-  newRecipeForm: FormGroup;
   isAllRecipeActive: boolean = true;
   currentPage: number = 1;
   recipesPerPage: number = 6;
@@ -40,18 +38,7 @@ export class RecipeListComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder
-  ) {
-    this.newRecipeForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      ingredients: ['', Validators.required],
-      steps: ['', Validators.required],
-      image_url: ['', Validators.required],
-      cuisine: ['', Validators.required],
-      dietary_preferences: ['', Validators.required],
-      cooking_time: [0, Validators.required],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.loadRecipes();
@@ -121,15 +108,6 @@ export class RecipeListComponent implements OnInit {
     } else {
       alert('Please login to view details about the recipe');
     }
-  }
-
-  addRecipe(): void {
-    this.recipeService
-      .addRecipes(this.newRecipeForm.value, this.userId)
-      .subscribe((res) => {
-        alert(res.message);
-      });
-    this.isAddingRecipe = false;
   }
 
   viewAllRecipes(): void {

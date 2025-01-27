@@ -1,0 +1,168 @@
+<div
+  class="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-200 to-blue-200"
+>
+  <div
+    class="bg-white rounded-xl shadow-2xl w-full max-w-4xl p-8 border-t-8 border-blue-400 transform transition-all hover:shadow-3xl hover:scale-105 duration-200"
+  >
+    <!-- Header -->
+    <h2
+      class="text-4xl font-bold text-blue-600 text-center mb-8 animate-fadeIn !mt-16"
+    >
+      Add Your Recipe
+    </h2>
+    <p class="text-center text-gray-600 mb-14 animate-fadeIn delay-200">
+      Fill out the details to share your delicious masterpiece!
+    </p>
+    <form [formGroup]="newRecipeForm" (ngSubmit)="addRecipe()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Recipe Name -->
+        <div class="flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Recipe Name
+          </label>
+          <input
+            type="text"
+            formControlName="name"
+            name="name"
+            placeholder="E.g., Chocolate Cake"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-blue-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+            required
+          />
+        </div>
+
+        <!-- Cuisine -->
+        <div class="flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Cuisine
+          </label>
+          <input
+            type="text"
+            formControlName="cuisine"
+            name="cuisine"
+            placeholder="E.g., Italian, Indian"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-pink-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          />
+        </div>
+
+        <!-- Dietary Preference -->
+        <div class="flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Dietary Preference
+          </label>
+          <select
+            formControlName="dietary_preferences"
+            name="dietaryPreference"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-yellow-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          >
+            <option value="">Select</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Non-Vegetarian">Non-Vegetarian</option>
+          </select>
+        </div>
+
+        <!-- Cooking Time -->
+        <div class="flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Cooking Time (mins)
+          </label>
+          <input
+            type="number"
+            formControlName="cooking_time"
+            name="cookingTime"
+            placeholder="E.g., 30"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-red-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="col-span-2 flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Description
+          </label>
+          <textarea
+            formControlName="description"
+            name="description"
+            rows="3"
+            placeholder="Briefly describe the recipe"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-blue-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          ></textarea>
+        </div>
+
+        <!-- Ingredients -->
+        <div class="col-span-2 flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Ingredients (comma-separated)
+          </label>
+          <input
+            type="text"
+            formControlName="ingredients"
+            name="ingredients"
+            placeholder="E.g., tomato, onion, garlic"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-pink-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          />
+        </div>
+
+        <!-- Steps -->
+        <div class="col-span-2 flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Steps (dot-separated)
+          </label>
+          <textarea
+            formControlName="steps"
+            name="steps"
+            rows="3"
+            placeholder="E.g., Step 1. Step 2."
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-green-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          ></textarea>
+        </div>
+
+        <!-- Image -->
+        <div class="col-span-2 flex flex-col animate-fadeIn">
+          <label
+            class="text-sm font-semibold text-gray-500 -top-2 left-4 bg-white px-1 py-2"
+          >
+            Image URL
+          </label>
+          <input
+            type="text"
+            formControlName="image_url"
+            name="image"
+            placeholder="E.g., https://example.com/image.jpg"
+            class="w-full bg-gradient-to-r from-blue-200 via-blue-100 to-blue-50 border-blue-200 rounded-lg p-4 shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-transform transform hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="mt-10 flex justify-center">
+        <button
+          [disabled]="newRecipeForm.invalid"
+          type="submit"
+          class="bg-blue-400 text-white py-2 px-6 rounded-full shadow-lg transform transition-all"
+          [ngClass]="{
+            'font-semibold hover:scale-110 bg-blue-500 hover:bg-blue-600':
+              !newRecipeForm.invalid,
+            'opacity-70 cursor-not-allowed': newRecipeForm.invalid
+          }"
+        >
+          Save Recipe
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
