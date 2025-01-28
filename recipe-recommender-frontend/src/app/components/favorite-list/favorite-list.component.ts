@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FavoriteService } from '../../services/favorite.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-favorite-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './favorite-list.component.html',
   styleUrl: './favorite-list.component.css'
 })
@@ -26,6 +27,7 @@ export class FavoriteListComponent {
   loadFavorites(): void {
     this.favoriteService.getFavorites(this.userId).subscribe((favorites) => {
       this.favorites = favorites;
+      console.log(this.favorites)
     });
   }
 
@@ -35,5 +37,4 @@ export class FavoriteListComponent {
       this.favorites = this.favorites.filter((fav) => fav.id !== recipeId);
     });
   }
-
 }
