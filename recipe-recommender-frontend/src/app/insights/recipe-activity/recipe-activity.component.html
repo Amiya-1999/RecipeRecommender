@@ -1,0 +1,84 @@
+<div class="container mx-auto p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Most Saved Recipes -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Most Saved Recipes</h2>
+      <ul>
+        <li *ngFor="let recipe of mostSavedRecipes" class="border-b py-2">
+          {{ recipe.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Trending Cuisines -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Trending Cuisines</h2>
+      <ul>
+        <li *ngFor="let cuisine of trendingCuisines" class="border-b py-2">
+          {{ cuisine.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Try These Next -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Try These Next</h2>
+      <ul>
+        <li *ngFor="let recipe of recommendedRecipes" class="border-b py-2">
+          {{ recipe.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Recently Viewed Recipes -->
+  <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+    <h2 class="text-xl font-semibold mb-4">Recently Viewed Recipes</h2>
+    <ul>
+      <li *ngFor="let recipe of recentlyViewedRecipes" class="border-b py-2">
+        {{ recipe.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Users Who Liked Similar Recipes -->
+  <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+    <h2 class="text-xl font-semibold mb-4">Users Who Liked Similar Recipes</h2>
+    <ul>
+      <li *ngFor="let user of usersWhoLikedSimilar" class="border-b py-2">
+        {{ user.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Cooking Streak Progress Bar -->
+  <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+    <h2 class="text-xl font-semibold mb-4">Your Cooking Streak</h2>
+    <div class="w-full bg-gray-200 rounded-full h-6">
+      <div
+        class="bg-green-500 h-6 rounded-full text-center text-white"
+        [ngStyle]="{ width: cookingStreak + '%' }"
+      >
+        {{ cookingStreak }}%
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Recipe Goal -->
+  <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+    <h2 class="text-xl font-semibold mb-4">Daily Recipe Goal</h2>
+    <p>
+      You have completed
+      <span class="font-bold">{{ dailyRecipesCompleted }}</span> out of
+      <span class="font-bold">{{ dailyRecipeGoal }}</span> recipes today.
+    </p>
+    <div class="w-full bg-gray-200 rounded-full h-6 mt-2">
+      <div
+        class="bg-blue-500 h-6 rounded-full text-center text-white"
+        [ngStyle]="{
+          width: (dailyRecipesCompleted / dailyRecipeGoal) * 100 + '%'
+        }"
+      ></div>
+    </div>
+  </div>
+</div>

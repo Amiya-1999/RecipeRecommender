@@ -78,3 +78,5 @@ Connect to smart kitchen devices to automate certain steps (e.g., oven settings)
 Add voice guidance for cooking steps using Web Speech API.
 Cache recipes locally for offline access using service workers.
 Use AR to overlay recipe steps in real time while cooking.
+
+Include Save for later options
