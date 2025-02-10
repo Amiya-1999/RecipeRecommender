@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoute");
 const recipeRoutes = require("./routes/recipeRoute");
 const favoriteRoutes = require("./routes/favoriteRoute");
+const savedRoutes = require("./routes/savedRoute");
 
 dotenv.config();
 const port = process.env.PORT || 4200;
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/saved", savedRoutes);
 
 // Error Handler
 app.use((err, req, res, next) => {

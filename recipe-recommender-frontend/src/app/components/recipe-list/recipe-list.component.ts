@@ -11,11 +11,20 @@ import {
   Validators,
 } from '@angular/forms';
 import { Recipe } from '../../services/structure';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SavedService } from '../../services/saved.service';
 
 @Component({
   selector: 'app-recipe-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatTooltipModule,
+  ],
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.css',
 })
@@ -24,17 +33,20 @@ export class RecipeListComponent implements OnInit {
   filteredRecipes: Recipe[] = [];
   displayRecipes: Recipe[] = [];
   userRecipes: Recipe[] = [];
+  savedRecipes: Recipe[] = [];
+  savedRecipesId: Set<number> = new Set();
   selectedCategory: string = '';
   searchText: string = '';
   isLoggedIn: boolean = false;
   userId: string | null = '';
-  isAllRecipeActive: boolean = true;
   currentPage: number = 1;
   recipesPerPage: number = 6;
   totalPage: number = 1;
+  activeButton = { allRecipe: true, userRecipes: false, savedRecipes: false };
 
   constructor(
     private recipeService: RecipeService,
+    private savedService: SavedService,
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder
@@ -48,6 +60,13 @@ export class RecipeListComponent implements OnInit {
     this.userService.getUserId().subscribe((res) => {
       this.userId = res;
     });
+    this.savedService
+      .getSavedRecipesByUser(this.userId)
+      .subscribe((savedRecipes) => {
+        savedRecipes.forEach((recipe) => {
+          this.savedRecipesId.add(recipe.id);
+        });
+      });
   }
 
   loadRecipes() {
@@ -59,16 +78,50 @@ export class RecipeListComponent implements OnInit {
     this.selectedCategory = '';
   }
 
+  toggleBookmark(recipeId: number): void {
+    if (this.savedRecipesId.has(recipeId)) {
+      this.savedService
+        .deleteSavedRecipe(this.userId, recipeId?.toString())
+        .subscribe(() => {
+          this.savedRecipesId.delete(recipeId);
+          if (this.activeButton.savedRecipes) {
+            this.selectedCategory = '';
+            this.searchText = '';
+            this.savedService
+              .getSavedRecipesByUser(this.userId)
+              .subscribe((response) => {
+                this.savedRecipes = response;
+                this.filteredRecipes = response;
+                this.currentPage = 1;
+                this.updatePaginatedRecipes();
+              });
+          }
+        });
+    } else {
+      this.savedService
+        .addSavedRecipe(this.userId, recipeId?.toString())
+        .subscribe(() => {
+          this.savedRecipesId.add(recipeId);
+        });
+    }
+  }
+
   filterRecipes(): void {
     this.searchText = '';
-    if (this.isAllRecipeActive) {
+    if (this.activeButton.allRecipe) {
       this.filteredRecipes = this.recipes.filter(
         (recipe) =>
           !this.selectedCategory ||
           recipe.dietary_preferences === this.selectedCategory
       );
-    } else {
+    } else if (this.activeButton.userRecipes) {
       this.filteredRecipes = this.userRecipes.filter(
+        (recipe) =>
+          !this.selectedCategory ||
+          recipe.dietary_preferences === this.selectedCategory
+      );
+    } else if (this.activeButton.savedRecipes) {
+      this.filteredRecipes = this.savedRecipes.filter(
         (recipe) =>
           !this.selectedCategory ||
           recipe.dietary_preferences === this.selectedCategory
@@ -80,12 +133,16 @@ export class RecipeListComponent implements OnInit {
 
   searchRecipe(): void {
     this.selectedCategory = '';
-    if (this.isAllRecipeActive) {
+    if (this.activeButton.allRecipe) {
       this.filteredRecipes = this.recipes.filter((recipe) =>
         recipe.name.toLowerCase().includes(this.searchText)
       );
-    } else {
+    } else if (this.activeButton.userRecipes) {
       this.filteredRecipes = this.userRecipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(this.searchText)
+      );
+    } else if (this.activeButton.savedRecipes) {
+      this.filteredRecipes = this.savedRecipes.filter((recipe) =>
         recipe.name.toLowerCase().includes(this.searchText)
       );
     }
@@ -111,7 +168,11 @@ export class RecipeListComponent implements OnInit {
   }
 
   viewAllRecipes(): void {
-    this.isAllRecipeActive = true;
+    this.activeButton = {
+      allRecipe: true,
+      userRecipes: false,
+      savedRecipes: false,
+    };
     this.filteredRecipes = this.recipes;
     this.selectedCategory = '';
     this.searchText = '';
@@ -120,7 +181,11 @@ export class RecipeListComponent implements OnInit {
   }
 
   viewUserRecipes(): void {
-    this.isAllRecipeActive = false;
+    this.activeButton = {
+      allRecipe: false,
+      userRecipes: true,
+      savedRecipes: false,
+    };
     this.selectedCategory = '';
     this.searchText = '';
     this.recipeService.getRecipesByUser(this.userId).subscribe((res) => {
@@ -129,6 +194,24 @@ export class RecipeListComponent implements OnInit {
       this.currentPage = 1;
       this.updatePaginatedRecipes();
     });
+  }
+
+  viewSavedRecipes(): void {
+    this.activeButton = {
+      allRecipe: false,
+      userRecipes: false,
+      savedRecipes: true,
+    };
+    this.selectedCategory = '';
+    this.searchText = '';
+    this.savedService
+      .getSavedRecipesByUser(this.userId)
+      .subscribe((response) => {
+        this.savedRecipes = response;
+        this.filteredRecipes = response;
+        this.currentPage = 1;
+        this.updatePaginatedRecipes();
+      });
   }
 
   nextPage() {

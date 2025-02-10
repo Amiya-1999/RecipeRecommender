@@ -80,3 +80,23 @@ Cache recipes locally for offline access using service workers.
 Use AR to overlay recipe steps in real time while cooking.
 
 Include Save for later options
+
+9. 📝 Meal Planner:
+
+Allow users to plan meals for the week using their saved recipes.
+Position: New Header Item → Name it "Meal Plan"
+Inside, users can drag & drop saved recipes into breakfast, lunch, and dinner slots.
+📜 Shopping List:
+
+Users can generate a shopping list based on recipes they want to cook.
+Position: Inside Insights or as a separate tab
+When users save a recipe, they can auto-generate a shopping list for ingredients.
+👨‍🍳 Recipe Challenges:
+
+Users get weekly challenges, like “Cook a Vegan Dish” or “Make a 30-min Meal.”
+Position: Inside Insights or as a separate tab
+They can complete challenges & earn badges.
+🌟 Trending Recipes:
+
+Show trending recipes based on user activity.
+Position: Inside Explore (as a dedicated tab).
