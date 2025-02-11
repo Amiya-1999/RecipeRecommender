@@ -5,7 +5,7 @@ exports.addSavedRecipes = async (req, res) => {
 
   try {
     const [existingSaved] = await db.execute(
-      "SELECT * FROM savedRecipes WHERE user_id = ? AND recipe_id = ?",
+      "SELECT * FROM saved_recipes WHERE user_id = ? AND recipe_id = ?",
       [userId, recipeId]
     );
     if (existingSaved.length > 0) {
@@ -15,7 +15,7 @@ exports.addSavedRecipes = async (req, res) => {
     }
 
     await db.execute(
-      "INSERT INTO savedRecipes (user_id, recipe_id) VALUES (?, ?)",
+      "INSERT INTO saved_recipes (user_id, recipe_id) VALUES (?, ?)",
       [userId, recipeId]
     );
     res
@@ -33,9 +33,9 @@ exports.getSavedRecipesByUser = async (req, res) => {
     const [savedRecipes] = await db.execute(
       `
             SELECT recipes.*
-            FROM savedRecipes
-            INNER JOIN recipes ON savedRecipes.recipe_id = recipes.id
-            WHERE savedRecipes.user_id = ?;
+            FROM saved_recipes
+            INNER JOIN recipes ON saved_recipes.recipe_id = recipes.id
+            WHERE saved_recipes.user_id = ?;
             `,
       [userId]
     );
@@ -50,7 +50,7 @@ exports.deleteSavedRecipe = async (req, res) => {
 
   try {
     await db.execute(
-      "DELETE FROM savedRecipes WHERE user_id = ? AND recipe_id = ?",
+      "DELETE FROM saved_recipes WHERE user_id = ? AND recipe_id = ?",
       [userId, recipeId]
     );
     res.status(200).json({ message: "Recipe has been unsaved successfully" });

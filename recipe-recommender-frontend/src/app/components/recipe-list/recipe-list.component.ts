@@ -14,6 +14,7 @@ import { Recipe } from '../../services/structure';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SavedService } from '../../services/saved.service';
+import { ViewService } from '../../services/view.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -47,6 +48,7 @@ export class RecipeListComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private savedService: SavedService,
+    private viewService: ViewService,
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder
@@ -161,6 +163,7 @@ export class RecipeListComponent implements OnInit {
 
   viewDetails(recipeId: number | undefined): void {
     if (this.isLoggedIn) {
+      this.viewService.addView(this.userId, recipeId?.toString()).subscribe();
       this.router.navigate(['/recipes', recipeId?.toString()]);
     } else {
       alert('Please login to view details about the recipe');
