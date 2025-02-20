@@ -9,14 +9,21 @@ exports.addFavorite = async (req, res) => {
       [userId, recipeId]
     );
     if (existingFavorite.length > 0) {
-      return res.status(400).json({ message: "Recipe already in favorites", alreadyFavourite: true });
+      return res
+        .status(400)
+        .json({
+          message: "Recipe already in favorites",
+          alreadyFavourite: true,
+        });
     }
 
     await db.execute(
       "INSERT INTO favorites (user_id, recipe_id) VALUES (?, ?)",
       [userId, recipeId]
     );
-    res.status(201).json({ message: "Recipe added to favorites", alreadyFavourite: false });
+    res
+      .status(201)
+      .json({ message: "Recipe added to favorites", alreadyFavourite: false });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

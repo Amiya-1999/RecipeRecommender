@@ -1,5 +1,25 @@
 <div class="container mx-auto p-6">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Most Popular Recipes -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Most Popular Recipes</h2>
+      <ul>
+        <li *ngFor="let recipe of mostPopularRecipes" class="border-b py-2">
+          {{ recipe.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Trending Recipes -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Trending Recipes</h2>
+      <ul>
+        <li *ngFor="let cuisine of trendingRecipes" class="border-b py-2">
+          {{ cuisine.name }}
+        </li>
+      </ul>
+    </div>
+
     <!-- Most Saved Recipes -->
     <div class="bg-white shadow-md rounded-lg p-4">
       <h2 class="text-xl font-semibold mb-4">Most Saved Recipes</h2>
@@ -10,12 +30,32 @@
       </ul>
     </div>
 
-    <!-- Trending Cuisines -->
+    <!-- Most Favourite Recipes -->
     <div class="bg-white shadow-md rounded-lg p-4">
-      <h2 class="text-xl font-semibold mb-4">Trending Cuisines</h2>
+      <h2 class="text-xl font-semibold mb-4">Most Favourite Recipes</h2>
       <ul>
-        <li *ngFor="let cuisine of trendingCuisines" class="border-b py-2">
-          {{ cuisine.name }}
+        <li *ngFor="let recipe of mostFavouriteRecipes" class="border-b py-2">
+          {{ recipe.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Most Viewed Recipes -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Most Viewed Recipes</h2>
+      <ul>
+        <li *ngFor="let recipe of mostViewedRecipes" class="border-b py-2">
+          {{ recipe.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Top Rated Recipes -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-xl font-semibold mb-4">Top Rated Recipes</h2>
+      <ul>
+        <li *ngFor="let recipe of topRatedRecipes" class="border-b py-2">
+          {{ recipe.name }}
         </li>
       </ul>
     </div>

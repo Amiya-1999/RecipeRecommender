@@ -6,13 +6,17 @@ import {
   sequence,
   style,
   ɵPRE_STYLE
-} from "./chunk-3YBTNG7I.js";
+} from "./chunk-AVAQI2KR.js";
+import "./chunk-AXKGNXHS.js";
 import {
   Injectable,
   RuntimeError,
   setClassMetadata,
   ɵɵdefineInjectable
-} from "./chunk-ST2QXTGV.js";
+} from "./chunk-RM24KKYX.js";
+import "./chunk-PGF5GHY3.js";
+import "./chunk-RZFGSV6T.js";
+import "./chunk-JFE6O76F.js";
 import {
   __objRest,
   __spreadValues
@@ -4032,29 +4036,28 @@ var AnimationRendererFactory = class {
     return this.engine.whenRenderingDone();
   }
 };
-
 export {
-  getParentElement,
-  validateStyleProperty,
-  validateWebAnimatableStyleProperty,
-  containsElement,
-  invokeQuery,
-  NoopAnimationDriver,
   AnimationDriver,
-  AnimationStyleNormalizer,
-  NoopAnimationStyleNormalizer,
-  normalizeKeyframes,
-  camelCaseToDashCase,
-  allowPreviousPlayerStylesMerge,
-  WebAnimationsStyleNormalizer,
-  AnimationEngine,
-  WebAnimationsPlayer,
-  WebAnimationsDriver,
-  createEngine,
-  Animation,
-  BaseAnimationRenderer,
-  AnimationRenderer,
-  AnimationRendererFactory
+  NoopAnimationDriver,
+  Animation as ɵAnimation,
+  AnimationEngine as ɵAnimationEngine,
+  AnimationRenderer as ɵAnimationRenderer,
+  AnimationRendererFactory as ɵAnimationRendererFactory,
+  AnimationStyleNormalizer as ɵAnimationStyleNormalizer,
+  BaseAnimationRenderer as ɵBaseAnimationRenderer,
+  NoopAnimationStyleNormalizer as ɵNoopAnimationStyleNormalizer,
+  WebAnimationsDriver as ɵWebAnimationsDriver,
+  WebAnimationsPlayer as ɵWebAnimationsPlayer,
+  WebAnimationsStyleNormalizer as ɵWebAnimationsStyleNormalizer,
+  allowPreviousPlayerStylesMerge as ɵallowPreviousPlayerStylesMerge,
+  camelCaseToDashCase as ɵcamelCaseToDashCase,
+  containsElement as ɵcontainsElement,
+  createEngine as ɵcreateEngine,
+  getParentElement as ɵgetParentElement,
+  invokeQuery as ɵinvokeQuery,
+  normalizeKeyframes as ɵnormalizeKeyframes,
+  validateStyleProperty as ɵvalidateStyleProperty,
+  validateWebAnimatableStyleProperty as ɵvalidateWebAnimatableStyleProperty
 };
 /*! Bundled license information:
 
@@ -4065,4 +4068,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-7XLBWTGP.js.map
+//# sourceMappingURL=browser-CRG6U26B.js.map

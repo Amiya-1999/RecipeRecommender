@@ -16,5 +16,11 @@ export interface Recipe {
   cooking_time: number;
   cuisine: string;
   dietary_preferences: string;
-  ratings?: number
+  ratings?: number;
+}
+
+export interface quickStat {
+  name: string;
+  value: string;
+  icon: string;
 }

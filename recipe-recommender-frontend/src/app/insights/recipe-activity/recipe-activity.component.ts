@@ -39,4 +39,29 @@ export class RecipeActivityComponent {
   ];
   dailyRecipesCompleted: number = 2;
   dailyRecipeGoal: number = 5;
+  mostFavouriteRecipes = [
+    { name: 'Chicken Burger' },
+    { name: 'Chicken Tikka' },
+    { name: 'Veg Chowmin' },
+  ];
+  mostPopularRecipes = [
+    { name: 'Chicken Burger' },
+    { name: 'Chicken Tikka' },
+    { name: 'Veg Chowmin' },
+  ];
+  trendingRecipes = [
+    { name: 'Chicken Burger' },
+    { name: 'Chicken Tikka' },
+    { name: 'Veg Chowmin' },
+  ];
+  mostViewedRecipes = [
+    { name: 'Chicken Burger' },
+    { name: 'Chicken Tikka' },
+    { name: 'Veg Chowmin' },
+  ];
+  topRatedRecipes = [
+    { name: 'Chicken Burger' },
+    { name: 'Chicken Tikka' },
+    { name: 'Veg Chowmin' },
+  ];
 }
