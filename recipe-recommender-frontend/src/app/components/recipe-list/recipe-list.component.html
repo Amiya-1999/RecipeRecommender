@@ -30,6 +30,14 @@
     </div>
     <!-- Search Bar and Filters -->
     <div class="flex">
+      <button
+        class="w-full mr-4 bg-white/90 hover:bg-white/100 text-black py-2 px-4 rounded-lg font-medium transition-transform hover:scale-105 duration-300"
+        (click)="openIngredientSearchModal()"
+        [ngClass]="{ 'underline bg-white/100': activeButton.ingredientRecipes }"
+      >
+        Search by Ingredients
+      </button>
+
       <input
         type="text"
         placeholder="Search Recipes"
@@ -150,5 +158,102 @@
     >
       Next
     </button>
+  </div>
+
+  <!--Ingredient search modal-->
+  <div
+    *ngIf="isIngredientModalOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+  >
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h3 class="text-lg font-semibold mb-4">Search Recipes by Ingredients</h3>
+
+      <!-- Manual Entry -->
+      <input
+        type="text"
+        [(ngModel)]="ingredientInput"
+        (input)="validateIngredientInput($event)"
+        [disabled]="selectedIngredients.length > 0"
+        placeholder="Enter ingredients (comma separated)"
+        class="w-full border p-2 mb-3"
+        [ngClass]="{ 'cursor-not-allowed': selectedIngredients.length > 0 }"
+      />
+      <div *ngIf="errorMessage" class="text-red-500 text-sm">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Ingredient Selection -->
+      <div class="h-40 overflow-y-auto border p-2 rounded-lg">
+        <label
+          *ngFor="let ingredient of allIngredients; let i = index"
+          class="block"
+        >
+          <input
+            type="checkbox"
+            [checked]="selectedIngredients.includes(ingredient)"
+            (change)="toggleIngredientCheckbox(ingredient, $event)"
+          />
+          {{ ingredient }}
+        </label>
+      </div>
+
+      <div class="my-3 font-medium">
+        Get recipes matching
+        <input
+          class="mx-1 cursor-pointer relative top-[2px]"
+          type="radio"
+          value="all"
+          [(ngModel)]="typeOfIngredientSearch"
+        />
+        all /
+        <input
+          class="mx-1 cursor-pointer relative top-[2px]"
+          type="radio"
+          value="any"
+          [(ngModel)]="typeOfIngredientSearch"
+        />
+        any ingredients
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-4">
+        <button
+          class="bg-gray-500 px-4 py-2 text-white rounded"
+          (click)="isIngredientModalOpen = false"
+        >
+          Cancel
+        </button>
+        <button
+          class="bg-green-500 px-4 py-2 text-white rounded"
+          (click)="clearSearch()"
+          [disabled]="
+            selectedIngredients.length === 0 && ingredientInput === ''
+          "
+          [ngClass]="{
+            'opacity-80 cursor-not-allowed':
+              selectedIngredients.length === 0 && ingredientInput === ''
+          }"
+        >
+          Clear
+        </button>
+        <button
+          class="bg-blue-500 px-4 py-2 text-white rounded"
+          (click)="searchRecipes()"
+          [disabled]="
+            (selectedIngredients.length === 0 &&
+              (ingredientInput === '' || errorMessage !== '')) ||
+            typeOfIngredientSearch === ''
+          "
+          [ngClass]="{
+            'opacity-80 cursor-not-allowed':
+              (selectedIngredients.length === 0 &&
+                (ingredientInput === '' || errorMessage !== '')) ||
+              typeOfIngredientSearch === ''
+          }"
+        >
+          Search
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -27,13 +27,25 @@ exports.getRecipeById = async (req, res) => {
 };
 
 exports.getRecipesByIngredients = async (req, res) => {
-  const { ingredients } = req.body;
+  const { ingredients, type } = req.body;
   try {
-    const regexp = ingredients.join("|");
-    const [recipes] = await db.execute(
-      "SELECT * FROM recipes WHERE ingredients REGEXP ?",
-      [regexp]
-    );
+    let recipes = [];
+    if (type === "all") {
+      const conditions = ingredients
+        .map(() => "LOWER(ingredients) LIKE ?")
+        .join(" AND ");
+      [recipes] = await db.execute(
+        `SELECT * FROM recipes WHERE ${conditions}`,
+        ingredients.map((ing) => `%${ing.toLowerCase()}%`)
+      );
+    } else if (type === "any") {
+      const regexp = ingredients.map((ing) => ing.toLowerCase()).join("|");
+      [recipes] = await db.execute(
+        "SELECT * FROM recipes WHERE LOWER(ingredients) REGEXP ?",
+        [regexp]
+      );
+    }
+
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -82,6 +94,20 @@ exports.getRecipesByUser = async (req, res) => {
       [userId]
     );
     res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllIngredient = async (req, res) => {
+  try {
+    const [ingredients] = await db.execute(
+      `SELECT DISTINCT TRIM(value) AS ingredient FROM recipes, JSON_TABLE(
+        CONCAT('["', REPLACE(ingredients, ',', '","'), '"]'), 
+        "$[*]" COLUMNS (value VARCHAR(255) PATH "$")) AS jt`
+    );
+    const ingredientsList = ingredients.map((row) => row.ingredient);
+    res.status(200).json(ingredientsList);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

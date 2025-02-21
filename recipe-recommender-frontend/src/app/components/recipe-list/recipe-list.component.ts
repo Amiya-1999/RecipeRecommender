@@ -35,6 +35,7 @@ export class RecipeListComponent implements OnInit {
   displayRecipes: Recipe[] = [];
   userRecipes: Recipe[] = [];
   savedRecipes: Recipe[] = [];
+  ingredientBasedRecipes: Recipe[] = [];
   savedRecipesId: Set<number> = new Set();
   selectedCategory: string = '';
   searchText: string = '';
@@ -43,7 +44,18 @@ export class RecipeListComponent implements OnInit {
   currentPage: number = 1;
   recipesPerPage: number = 6;
   totalPage: number = 1;
-  activeButton = { allRecipe: true, userRecipes: false, savedRecipes: false };
+  activeButton = {
+    allRecipe: true,
+    userRecipes: false,
+    savedRecipes: false,
+    ingredientRecipes: false,
+  };
+  isIngredientModalOpen: boolean = false;
+  ingredientInput: string = '';
+  selectedIngredients: string[] = [];
+  allIngredients: string[] = [];
+  errorMessage: string = '';
+  typeOfIngredientSearch: string = '';
 
   constructor(
     private recipeService: RecipeService,
@@ -128,6 +140,12 @@ export class RecipeListComponent implements OnInit {
           !this.selectedCategory ||
           recipe.dietary_preferences === this.selectedCategory
       );
+    } else if (this.activeButton.ingredientRecipes) {
+      this.filteredRecipes = this.ingredientBasedRecipes.filter(
+        (recipe) =>
+          !this.selectedCategory ||
+          recipe.dietary_preferences === this.selectedCategory
+      );
     }
     this.currentPage = 1;
     this.updatePaginatedRecipes();
@@ -145,6 +163,10 @@ export class RecipeListComponent implements OnInit {
       );
     } else if (this.activeButton.savedRecipes) {
       this.filteredRecipes = this.savedRecipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(this.searchText)
+      );
+    } else if (this.activeButton.ingredientRecipes) {
+      this.filteredRecipes = this.ingredientBasedRecipes.filter((recipe) =>
         recipe.name.toLowerCase().includes(this.searchText)
       );
     }
@@ -175,6 +197,7 @@ export class RecipeListComponent implements OnInit {
       allRecipe: true,
       userRecipes: false,
       savedRecipes: false,
+      ingredientRecipes: false,
     };
     this.filteredRecipes = this.recipes;
     this.selectedCategory = '';
@@ -188,6 +211,7 @@ export class RecipeListComponent implements OnInit {
       allRecipe: false,
       userRecipes: true,
       savedRecipes: false,
+      ingredientRecipes: false,
     };
     this.selectedCategory = '';
     this.searchText = '';
@@ -204,6 +228,7 @@ export class RecipeListComponent implements OnInit {
       allRecipe: false,
       userRecipes: false,
       savedRecipes: true,
+      ingredientRecipes: false,
     };
     this.selectedCategory = '';
     this.searchText = '';
@@ -232,5 +257,81 @@ export class RecipeListComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedRecipes();
     }
+  }
+
+  openIngredientSearchModal(): void {
+    this.isIngredientModalOpen = true;
+    this.selectedIngredients = [];
+    this.ingredientInput = '';
+    this.typeOfIngredientSearch = '';
+    this.fetchAllIngredients();
+  }
+
+  validateIngredientInput(event: any): void {
+    const validRegex = /^[a-zA-Z\s,]*$/;
+
+    if (!validRegex.test(this.ingredientInput)) {
+      console.log('Inside');
+      this.errorMessage =
+        'OEnter a valid comma-separated list (e.g., Tomato, Basil, Cheese)';
+      return;
+    }
+
+    this.errorMessage = '';
+
+    this.ingredientInput = this.ingredientInput.replace(/,\s*,/g, ',').trim();
+  }
+
+  fetchAllIngredients(): void {
+    this.recipeService.getAllIngredient().subscribe((ingredients) => {
+      this.allIngredients = ingredients;
+    });
+  }
+
+  toggleIngredientCheckbox(ingredient: string, event: any): void {
+    if (this.selectedIngredients.length > 0 || event.target.checked) {
+      this.ingredientInput = '';
+    }
+    if (event.target.checked) {
+      this.selectedIngredients.push(ingredient);
+    } else {
+      this.selectedIngredients = this.selectedIngredients.filter(
+        (data) => data !== ingredient
+      );
+    }
+  }
+
+  clearSearch(): void {
+    this.ingredientInput = '';
+    this.selectedIngredients = [];
+    this.typeOfIngredientSearch = '';
+  }
+
+  searchRecipes(): void {
+    this.activeButton = {
+      allRecipe: false,
+      userRecipes: false,
+      savedRecipes: false,
+      ingredientRecipes: true,
+    };
+    this.selectedCategory = '';
+    this.searchText = '';
+    let ingredients = [];
+    if (this.selectedIngredients.length > 0) {
+      ingredients = [...this.selectedIngredients];
+    } else {
+      ingredients = [
+        ...new Set(this.ingredientInput.split(',').map((word) => word.trim())),
+      ];
+    }
+    this.recipeService
+      .searchRecipes(ingredients, this.typeOfIngredientSearch)
+      .subscribe((recipes) => {
+        this.ingredientBasedRecipes = recipes;
+        this.filteredRecipes = recipes;
+        this.currentPage = 1;
+        this.updatePaginatedRecipes();
+        this.isIngredientModalOpen = false;
+      });
   }
 }

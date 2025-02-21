@@ -19,8 +19,8 @@ export class RecipeService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  searchRecipes(ingredients: string[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/search`, { ingredients });
+  searchRecipes(ingredients: string[], type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/search`, { ingredients, type });
   }
 
   addRecipes(recipe: Recipe, userId: string | null): Observable<any> {
@@ -29,5 +29,9 @@ export class RecipeService {
 
   getRecipesByUser(userId: string | null): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/${userId}`);
+  }
+
+  getAllIngredient(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/ingredients`);
   }
 }
