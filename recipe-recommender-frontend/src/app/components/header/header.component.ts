@@ -45,6 +45,9 @@ export class HeaderComponent {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
+    if(window.location.pathname === '/login') {
+      this.isLoggedIn = false;
+    }
     this.userService.isLoggedIn().subscribe((data) => {
       this.isLoggedIn = data;
     });

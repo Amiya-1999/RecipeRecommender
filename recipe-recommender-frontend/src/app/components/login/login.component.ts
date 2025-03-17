@@ -27,6 +27,10 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    localStorage.clear();
+  }
+
   toggleAuthMode() {
     this.isRegister = !this.isRegister;
     if (!this.isRegister) {

@@ -100,3 +100,17 @@ They can complete challenges & earn badges.
 
 Show trending recipes based on user activity.
 Position: Inside Explore (as a dedicated tab).
+
+
+
+
+***************************************************
+Removed ssr for now 
+For future reference please add these lines under projects->recipe-recommender-frontend->architect->options(preferably after script) in angular.json file
+
+"server": "src/main.server.ts",
+"prerender": true,
+"ssr": {
+    "entry": "server.ts"
+}
+****************************************************

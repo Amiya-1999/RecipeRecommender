@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +11,7 @@ export class UserService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
   private userId = new BehaviorSubject<string | null>(this.hasUserId());
 
-  constructor(
-    private http: HttpClient,
-    private storageService: StorageService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   // Check if user is logged in
   isLoggedIn(): Observable<boolean> {
@@ -60,8 +56,8 @@ export class UserService {
   login(data: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, data).pipe(
       tap((response: any) => {
-        this.storageService.setItem('token', response.token);
-        this.storageService.setItem('userId', response.user.id);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userId', response.user.id);
         this.isLoggedInSubject.next(true);
         this.userId.next(response.user.id);
       })
@@ -76,11 +72,11 @@ export class UserService {
   }
 
   private hasUserId(): string | null {
-    return this.storageService.getItem('userId');
+    return localStorage.getItem('userId');
   }
 
   // Check for token in localStorage
   private hasToken(): boolean {
-    return !!this.storageService.getItem('token');
+    return !!localStorage.getItem('token');
   }
 }
