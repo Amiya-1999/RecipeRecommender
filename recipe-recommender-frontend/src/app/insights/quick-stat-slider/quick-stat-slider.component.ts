@@ -65,7 +65,6 @@ export class QuickStatSliderComponent {
 
   constructor(
     private renderer: Renderer2,
-    @Inject(PLATFORM_ID) private platformId: any,
     private insightsService: InsightsService,
     private userService: UserService
   ) {}
@@ -77,11 +76,10 @@ export class QuickStatSliderComponent {
     this.insightsService.getAllQuickStats(this.userId).subscribe((data) => {
       this.updateQuickStatValues(data);
     });
-    if (isPlatformBrowser(this.platformId)) {
-      this.updateItemsPerView();
-      this.duplicateItems();
-      setTimeout(() => this.startAutoScroll(), 0);
-    }
+
+    this.updateItemsPerView();
+    this.duplicateItems();
+    setTimeout(() => this.startAutoScroll(), 0);
   }
 
   updateQuickStatValues(stats: any): void {

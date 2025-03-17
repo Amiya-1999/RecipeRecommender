@@ -18,49 +18,47 @@ export class MostPopularRecipesComponent {
     { name: 'Shakshuka', views: 50, favorites: 10, saved: 28 },
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor() {}
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById(
-        'mostPopularChart'
-      ) as HTMLCanvasElement;
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: this.mostPopularRecipes.map((r) => r.name),
-          datasets: [
-            {
-              label: 'Views',
-              data: this.mostPopularRecipes.map((r) => r.views),
-              backgroundColor: '#ef4444',
-            },
-            {
-              label: 'Favorites',
-              data: this.mostPopularRecipes.map((r) => r.favorites),
-              backgroundColor: '#f97316',
-            },
-            {
-              label: 'Saved',
-              data: this.mostPopularRecipes.map((r) => r.saved),
-              backgroundColor: '#facc15',
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-              color: '#ffffff',
-              font: { weight: 'bold', size: 14 },
-              anchor: 'end',
-              align: 'start',
-              formatter: (value) => value,
-            },
+    const ctx = document.getElementById(
+      'mostPopularChart'
+    ) as HTMLCanvasElement;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.mostPopularRecipes.map((r) => r.name),
+        datasets: [
+          {
+            label: 'Views',
+            data: this.mostPopularRecipes.map((r) => r.views),
+            backgroundColor: '#ef4444',
+          },
+          {
+            label: 'Favorites',
+            data: this.mostPopularRecipes.map((r) => r.favorites),
+            backgroundColor: '#f97316',
+          },
+          {
+            label: 'Saved',
+            data: this.mostPopularRecipes.map((r) => r.saved),
+            backgroundColor: '#facc15',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          datalabels: {
+            color: '#ffffff',
+            font: { weight: 'bold', size: 14 },
+            anchor: 'end',
+            align: 'start',
+            formatter: (value) => value,
           },
         },
-      });
-    }
+      },
+    });
   }
 }

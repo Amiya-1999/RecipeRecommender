@@ -16,53 +16,51 @@ export class DietaryPreferencesComponent implements AfterViewInit {
     { name: 'Non-Vegetarian', totalRecipe: 130 },
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor() {}
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById('dietaryChart') as HTMLCanvasElement;
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'polarArea',
-          data: {
-            labels: this.availableDiet.map((d) => d.name),
-            datasets: [
-              {
-                data: this.availableDiet.map((d) => d.totalRecipe),
-                backgroundColor: ['#4f46e5', '#ec4899', '#10b981'],
-                borderColor: '#ffffff',
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { position: 'top' },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem) => {
-                    const total = (tooltipItem.dataset.data as number[]).reduce(
-                      (sum, val) => sum + val,
-                      0
-                    );
-                    const value = tooltipItem.raw as number;
-                    const percentage = ((value / total) * 100).toFixed(2) + '%';
-                    return `${tooltipItem.label}: ${value} recipes (${percentage})`;
-                  },
+    const ctx = document.getElementById('dietaryChart') as HTMLCanvasElement;
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+          labels: this.availableDiet.map((d) => d.name),
+          datasets: [
+            {
+              data: this.availableDiet.map((d) => d.totalRecipe),
+              backgroundColor: ['#4f46e5', '#ec4899', '#10b981'],
+              borderColor: '#ffffff',
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem) => {
+                  const total = (tooltipItem.dataset.data as number[]).reduce(
+                    (sum, val) => sum + val,
+                    0
+                  );
+                  const value = tooltipItem.raw as number;
+                  const percentage = ((value / total) * 100).toFixed(2) + '%';
+                  return `${tooltipItem.label}: ${value} recipes (${percentage})`;
                 },
               },
-              datalabels: {
-                color: '#ffffff',
-                font: { weight: 'bold', size: 14 },
-                anchor: 'center',
-                align: 'end',
-                formatter: (value) => value,
-              },
+            },
+            datalabels: {
+              color: '#ffffff',
+              font: { weight: 'bold', size: 14 },
+              anchor: 'center',
+              align: 'end',
+              formatter: (value) => value,
             },
           },
-        });
-      }
+        },
+      });
     }
   }
 }

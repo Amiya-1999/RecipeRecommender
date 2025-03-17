@@ -10,7 +10,7 @@ import { Chart } from 'chart.js';
   styleUrl: './cuisine-preferences.component.css',
 })
 export class CuisinePreferencesComponent implements AfterViewInit {
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor() {}
   mostViewedCuisines = [
     { name: 'Italian', totalRecipe: 150 },
     { name: 'Indian', totalRecipe: 120 },
@@ -19,52 +19,50 @@ export class CuisinePreferencesComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById('cuisineChart') as HTMLCanvasElement;
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: this.mostViewedCuisines.map((c) => c.name),
-            datasets: [
-              {
-                data: this.mostViewedCuisines.map((c) => c.totalRecipe),
-                backgroundColor: ['#f43f5e', '#fb923c', '#fde047', '#10b981'],
-                borderColor: '#ffffff',
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            animation: { animateScale: true },
-            cutout: '10%',
-            plugins: {
-              legend: { position: 'top' },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem) => {
-                    const total = (tooltipItem.dataset.data as number[]).reduce(
-                      (sum, val) => sum + val,
-                      0
-                    );
-                    const value = tooltipItem.raw as number;
-                    const percentage = ((value / total) * 100).toFixed(2) + '%';
-                    return `${tooltipItem.label}: ${value} recipes (${percentage})`;
-                  },
+    const ctx = document.getElementById('cuisineChart') as HTMLCanvasElement;
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: this.mostViewedCuisines.map((c) => c.name),
+          datasets: [
+            {
+              data: this.mostViewedCuisines.map((c) => c.totalRecipe),
+              backgroundColor: ['#f43f5e', '#fb923c', '#fde047', '#10b981'],
+              borderColor: '#ffffff',
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          animation: { animateScale: true },
+          cutout: '10%',
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem) => {
+                  const total = (tooltipItem.dataset.data as number[]).reduce(
+                    (sum, val) => sum + val,
+                    0
+                  );
+                  const value = tooltipItem.raw as number;
+                  const percentage = ((value / total) * 100).toFixed(2) + '%';
+                  return `${tooltipItem.label}: ${value} recipes (${percentage})`;
                 },
               },
-              datalabels: {
-                color: '#ffffff',
-                font: { weight: 'bold', size: 14 },
-                anchor: 'end',
-                align: 'start',
-                formatter: (value) => value,
-              },
+            },
+            datalabels: {
+              color: '#ffffff',
+              font: { weight: 'bold', size: 14 },
+              anchor: 'end',
+              align: 'start',
+              formatter: (value) => value,
             },
           },
-        });
-      }
+        },
+      });
     }
   }
 }

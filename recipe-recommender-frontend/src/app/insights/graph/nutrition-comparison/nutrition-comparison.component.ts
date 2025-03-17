@@ -20,67 +20,63 @@ export class NutritionComparisonComponent {
     { cuisine: 'Mexican', calories: 750, protein: 32, carbs: 88, fats: 38 },
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor() {}
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById(
-        'nutritionChart'
-      ) as HTMLCanvasElement;
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: this.nutritionComparison.map((c) => c.cuisine),
-            datasets: [
-              {
-                label: 'Calories',
-                data: this.nutritionComparison.map((c) => c.calories),
-                backgroundColor: '#f43f5e',
-              },
-              {
-                label: 'Protein',
-                data: this.nutritionComparison.map((c) => c.protein),
-                backgroundColor: '#10b981',
-              },
-              {
-                label: 'Carbs',
-                data: this.nutritionComparison.map((c) => c.carbs),
-                backgroundColor: '#fbbf24',
-              },
-              {
-                label: 'Fats',
-                data: this.nutritionComparison.map((c) => c.fats),
-                backgroundColor: '#6366f1',
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { position: 'top' },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem) =>
-                    `${tooltipItem.dataset.label}: ${tooltipItem.raw}`,
-                },
-              },
-              datalabels: {
-                color: 'white',
-                font: {
-                  weight: 'bold',
-                  size: 14,
-                },
-                formatter: (value) => value,
+    const ctx = document.getElementById('nutritionChart') as HTMLCanvasElement;
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: this.nutritionComparison.map((c) => c.cuisine),
+          datasets: [
+            {
+              label: 'Calories',
+              data: this.nutritionComparison.map((c) => c.calories),
+              backgroundColor: '#f43f5e',
+            },
+            {
+              label: 'Protein',
+              data: this.nutritionComparison.map((c) => c.protein),
+              backgroundColor: '#10b981',
+            },
+            {
+              label: 'Carbs',
+              data: this.nutritionComparison.map((c) => c.carbs),
+              backgroundColor: '#fbbf24',
+            },
+            {
+              label: 'Fats',
+              data: this.nutritionComparison.map((c) => c.fats),
+              backgroundColor: '#6366f1',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem) =>
+                  `${tooltipItem.dataset.label}: ${tooltipItem.raw}`,
               },
             },
-            scales: {
-              x: { stacked: true },
-              y: { stacked: true, beginAtZero: true },
+            datalabels: {
+              color: 'white',
+              font: {
+                weight: 'bold',
+                size: 14,
+              },
+              formatter: (value) => value,
             },
           },
-        });
-      }
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true, beginAtZero: true },
+          },
+        },
+      });
     }
   }
 }

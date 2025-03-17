@@ -10,7 +10,7 @@ import { Chart } from 'chart.js';
   styleUrl: './most-used-ingredients.component.css',
 })
 export class MostUsedIngredientsComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor() {}
   topIngredients = [
     { name: 'Garlic', totalRecipeUsed: 120 },
     { name: 'Onion', totalRecipeUsed: 100 },
@@ -20,74 +20,70 @@ export class MostUsedIngredientsComponent {
   ];
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById(
-        'ingredientsChart'
-      ) as HTMLCanvasElement;
-      if (ctx) {
-        // Sorting ingredients by usage count (descending)
-        this.topIngredients.sort(
-          (a, b) => b.totalRecipeUsed - a.totalRecipeUsed
-        );
+    const ctx = document.getElementById(
+      'ingredientsChart'
+    ) as HTMLCanvasElement;
+    if (ctx) {
+      // Sorting ingredients by usage count (descending)
+      this.topIngredients.sort((a, b) => b.totalRecipeUsed - a.totalRecipeUsed);
 
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: this.topIngredients.map((i) => i.name),
-            datasets: [
-              {
-                label: 'Ingredient Usage',
-                data: this.topIngredients.map((i) => i.totalRecipeUsed),
-                backgroundColor: [
-                  '#ef4444',
-                  '#f97316',
-                  '#eab308',
-                  '#84cc16',
-                  '#3b82f6',
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            indexAxis: 'y',
-            responsive: true,
-            scales: {
-              x: {
-                beginAtZero: true,
-                ticks: { font: { size: 14 } },
-              },
-              y: {
-                ticks: { font: { size: 14 }, autoSkip: false },
-              },
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: this.topIngredients.map((i) => i.name),
+          datasets: [
+            {
+              label: 'Ingredient Usage',
+              data: this.topIngredients.map((i) => i.totalRecipeUsed),
+              backgroundColor: [
+                '#ef4444',
+                '#f97316',
+                '#eab308',
+                '#84cc16',
+                '#3b82f6',
+              ],
+              borderColor: '#ffffff',
+              borderWidth: 2,
             },
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem) => {
-                    const total = this.topIngredients.reduce(
-                      (sum, ing) => sum + ing.totalRecipeUsed,
-                      0
-                    );
-                    const value = tooltipItem.raw as number;
-                    const percentage = ((value / total) * 100).toFixed(2) + '%';
-                    return `${tooltipItem.label}: ${value} times (${percentage})`;
-                  },
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { font: { size: 14 } },
+            },
+            y: {
+              ticks: { font: { size: 14 }, autoSkip: false },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem) => {
+                  const total = this.topIngredients.reduce(
+                    (sum, ing) => sum + ing.totalRecipeUsed,
+                    0
+                  );
+                  const value = tooltipItem.raw as number;
+                  const percentage = ((value / total) * 100).toFixed(2) + '%';
+                  return `${tooltipItem.label}: ${value} times (${percentage})`;
                 },
               },
-              datalabels: {
-                color: '#000000',
-                font: { weight: 'bold', size: 14 },
-                anchor: 'end',
-                align: 'left',
-                formatter: (value) => value,
-              },
+            },
+            datalabels: {
+              color: '#000000',
+              font: { weight: 'bold', size: 14 },
+              anchor: 'end',
+              align: 'left',
+              formatter: (value) => value,
             },
           },
-        });
-      }
+        },
+      });
     }
   }
 }

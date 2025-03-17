@@ -24,56 +24,49 @@ export class RecipeOnTrendComponent {
     { name: 'Pizza', date: '2024-01-20', views: 500, favorites: 110 },
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor() {}
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const ctx = document.getElementById(
-        'trendingChart'
-      ) as HTMLCanvasElement;
+    const ctx = document.getElementById('trendingChart') as HTMLCanvasElement;
+    if (ctx) {
+      const uniqueRecipes = [...new Set(this.recipeTrends.map((r) => r.name))];
+      const uniqueDates = [...new Set(this.recipeTrends.map((r) => r.date))];
 
-      if (ctx) {
-        const uniqueRecipes = [
-          ...new Set(this.recipeTrends.map((r) => r.name)),
-        ];
-        const uniqueDates = [...new Set(this.recipeTrends.map((r) => r.date))];
+      const datasets = uniqueRecipes.map((recipe, index) => {
+        const recipeData = this.recipeTrends.filter((r) => r.name === recipe);
+        return {
+          label: recipe,
+          data: recipeData.map((r) => r.views), // Use views or favorites
+          borderColor: this.getColor(index),
+          backgroundColor: this.getColor(index, 0.2),
+          tension: 0.4,
+          fill: true,
+        };
+      });
 
-        const datasets = uniqueRecipes.map((recipe, index) => {
-          const recipeData = this.recipeTrends.filter((r) => r.name === recipe);
-          return {
-            label: recipe,
-            data: recipeData.map((r) => r.views), // Use views or favorites
-            borderColor: this.getColor(index),
-            backgroundColor: this.getColor(index, 0.2),
-            tension: 0.4,
-            fill: true,
-          };
-        });
-
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: uniqueDates, // X-axis = Time (Date)
-            datasets: datasets, // Each recipe has its own trend line
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { position: 'top' },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem) =>
-                    `${tooltipItem.dataset.label} - Views: ${tooltipItem.raw}`,
-                },
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: uniqueDates, // X-axis = Time (Date)
+          datasets: datasets, // Each recipe has its own trend line
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem) =>
+                  `${tooltipItem.dataset.label} - Views: ${tooltipItem.raw}`,
               },
             },
-            scales: {
-              x: { title: { display: true, text: 'Date' } },
-              y: { title: { display: true, text: 'Views' }, beginAtZero: true },
-            },
           },
-        });
-      }
+          scales: {
+            x: { title: { display: true, text: 'Date' } },
+            y: { title: { display: true, text: 'Views' }, beginAtZero: true },
+          },
+        },
+      });
     }
   }
 
