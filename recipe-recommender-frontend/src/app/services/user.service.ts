@@ -31,6 +31,10 @@ export class UserService {
     return this.http.put<any>(`${this.baseUrl}/update/${user.id}`, updatedUser);
   }
 
+  resetPassword(data: {email: string, password: string}): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/reset/password`, data);
+  }
+
   userDetails(userId: string | null): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${userId}`);
   }

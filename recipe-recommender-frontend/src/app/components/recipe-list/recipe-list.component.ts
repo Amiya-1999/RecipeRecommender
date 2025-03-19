@@ -271,9 +271,8 @@ export class RecipeListComponent implements OnInit {
     const validRegex = /^[a-zA-Z\s,]*$/;
 
     if (!validRegex.test(this.ingredientInput)) {
-      console.log('Inside');
       this.errorMessage =
-        'OEnter a valid comma-separated list (e.g., Tomato, Basil, Cheese)';
+        'Enter a valid comma-separated list (e.g., Tomato, Basil, Cheese)';
       return;
     }
 

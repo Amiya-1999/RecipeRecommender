@@ -1,7 +1,9 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
     <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">
-      {{ isRegister ? "Register" : "Login" }}
+      {{
+        isRegister ? "Register" : isPasswordForgot ? "Reset Password" : "Login"
+      }}
     </h2>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div *ngIf="isRegister">
@@ -44,13 +46,25 @@
         <label for="password" class="block text-gray-700 font-medium"
           >Password</label
         >
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          placeholder="Your Password"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div class="relative">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Your Password"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            *ngIf="authForm.get('password')?.value"
+            type="button"
+            class="absolute right-[6px] top-[6px]"
+            (click)="showPassword = !showPassword"
+          >
+            <mat-icon>{{
+              showPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+        </div>
         <p
           *ngIf="
             authForm.get('password')?.invalid &&
@@ -62,11 +76,41 @@
         </p>
       </div>
 
+      <div *ngIf="!isRegister && !isPasswordForgot">
+        <a
+          (click)="isPasswordForgot = !isPasswordForgot"
+          class="text-blue-500 hover:underline cursor-pointer"
+          >Forgot Password?</a
+        >
+      </div>
+
       <button
+        [disabled]="
+          isRegister
+            ? authForm.invalid
+            : authForm.get('email')?.invalid ||
+              authForm.get('password')?.invalid
+        "
+        [ngClass]="
+          (
+            isRegister
+              ? authForm.invalid
+              : authForm.get('email')?.invalid ||
+                authForm.get('password')?.invalid
+          )
+            ? 'cursor-not-allowed opacity-75'
+            : 'hover:bg-blue-600'
+        "
         type="submit"
-        class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-transform duration-200"
+        class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg transition-transform duration-200"
       >
-        {{ isRegister ? "Register" : "Login" }}
+        {{
+          isRegister
+            ? "Register"
+            : isPasswordForgot
+            ? "Reset Password"
+            : "Login"
+        }}
       </button>
     </form>
 

@@ -48,9 +48,37 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.resetPassword = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    if (users.length === 0)
+      return res.status(404).json({ message: "User not found" });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.execute("UPDATE users SET password=? WHERE email=?", [
+      hashedPassword,
+      email,
+    ]);
+    res.status(201).json({
+      message: "Password changed successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
+    const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    if (users.length !== 0)
+      return res.status(404).json({ message: "User already exist" });
     const hashedPassword = await bcrypt.hash(password, 10);
     await db.execute(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
